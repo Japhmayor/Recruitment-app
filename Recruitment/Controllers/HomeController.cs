@@ -3,16 +3,40 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Recruitment.Models;
+using Recruitment.ViewModels.Home;
 
 namespace Recruitment.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly ApplicationDbContext _context;
+        private readonly UserManager<User> _userManager;
+
+        public HomeController(ApplicationDbContext context, UserManager<User> userManager)
+        {
+            _context = context;
+            _userManager = userManager;
+        }
+
         public IActionResult Index()
         {
-            return View();
+            var jobs = _context.Jobs
+                .Where(x => x.Filled == false)
+                .ToList();
+            var trendings = _context.Jobs
+                .Where(b => b.CreatedAt.Month == DateTime.Now.Month)
+                .Where(x => x.Filled == false)
+                .ToList();
+            var model = new TrendingJobViewModel
+            {
+                Trendings = trendings,
+                Jobs = jobs
+            };
+
+            return View(model);
         }
 
         public IActionResult About()
