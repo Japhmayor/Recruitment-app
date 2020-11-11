@@ -17,7 +17,7 @@ namespace Recruitment.Controllers
 
         public HomeController(ApplicationDbContext context, UserManager<User> userManager)
         {
-            _context = context;
+            _context = context; 
             _userManager = userManager;
         }
 
