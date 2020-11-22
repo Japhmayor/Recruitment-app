@@ -10,7 +10,7 @@ using Recruitment.Models;
 namespace Recruitment.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20201110172046_Initial")]
+    [Migration("20201112062049_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

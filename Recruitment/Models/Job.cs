@@ -23,7 +23,7 @@ namespace Recruitment.Models
         [Required, Display(Name = "Location", Prompt = "Location")]
         public string Location { get; set; }
 
-        // The type of the job
+        // The type of the job(fulltime, parttime or internships)
         [Required(ErrorMessage = "Type is required"), Display(Name = "Type", Prompt = "Type")]
         public string Type { get; set; }
 

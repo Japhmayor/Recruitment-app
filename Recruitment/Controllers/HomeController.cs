@@ -23,9 +23,12 @@ namespace Recruitment.Controllers
 
         public IActionResult Index()
         {
+            //get jobs that the user has not filled
             var jobs = _context.Jobs
                 .Where(x => x.Filled == false)
                 .ToList();
+
+            //get jobs as trending based on the months they were added.
             var trendings = _context.Jobs
                 .Where(b => b.CreatedAt.Month == DateTime.Now.Month)
                 .Where(x => x.Filled == false)
@@ -39,18 +42,49 @@ namespace Recruitment.Controllers
             return View(model);
         }
 
-        public IActionResult About()
+        [Route("jobs/{id}/details")]
+        public async Task<IActionResult> JobDetails(int id)
         {
-            ViewData["Message"] = "Your application description page.";
+            var job = _context.Jobs.SingleOrDefault(x => x.Id == id);
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+            var applied = false;
+            if (user != null)
+                applied = _context.Applicants.Where(x => x.Job == job)
+                    .Any(x => x.User == user);
 
-            return View();
+            var model = new JobDetailsViewModel
+            {
+                Job = job,
+                IsApplied = applied
+            };
+
+            return View(model);
         }
 
-        public IActionResult Contact()
+        [Route("search")]
+        public IActionResult Search()
         {
-            ViewData["Message"] = "Your contact page.";
+            List<Job> jobs;
 
-            return View();
+            string position = HttpContext.Request.Query["positon"].ToString();
+            string location = HttpContext.Request.Query["location"].ToString();
+            if (position.Length > 0 && location.Length > 0)
+            {
+                jobs = _context.Jobs.Where(x => x.Title.Contains(position))
+                    .ToList();
+            }
+            else if (location.Length == 0)
+            {
+                jobs = _context.Jobs.Where(x => x.Title.Contains(position))
+                    .ToList();
+            }
+            else
+            {
+                jobs = _context.Jobs.Where(x => x.Location.Contains(location))
+                    .ToList();
+            }
+
+            return View(jobs);
         }
 
         public IActionResult Privacy()

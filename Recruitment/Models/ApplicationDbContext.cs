@@ -11,7 +11,9 @@ namespace Recruitment.Models
     {
         public ApplicationDbContext(DbContextOptions options) : base(options)
         {
+            // make sure that the database exists
             Database.EnsureCreated();
+            //Database.Migrate();
         }
 
         public DbSet<Job> Jobs { get; set; }

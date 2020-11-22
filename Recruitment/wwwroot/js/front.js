@@ -1,7 +1,7 @@
-﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
-
-// Write your JavaScript code.
+/*!
+ * Bootstrap Job Board Template
+ * Copyright 2016-2018, Ondrej Svestka
+ */
 
 $(function () {
 
@@ -186,15 +186,15 @@ function menuSliding() {
 
     dropdowns.on('show.bs.dropdown', function (e) {
 
-        var dropdownMenu = $(this).find('.dropdown-menu').first();
+            var dropdownMenu = $(this).find('.dropdown-menu').first();
 
-        if ($(window).width() > 750) {
-            dropdownMenu.stop(true, true).slideDown();
+            if ($(window).width() > 750) {
+                dropdownMenu.stop(true, true).slideDown();
 
-        } else {
-            dropdownMenu.stop(true, true).show();
+            } else {
+                dropdownMenu.stop(true, true).show();
+            }
         }
-    }
 
     );
     dropdowns.on('hide.bs.dropdown', function (e) {
